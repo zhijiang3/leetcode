@@ -2,7 +2,8 @@
   "name": "leetcode",
   "version": "0.0.1",
   "scripts": {
-    "new": "node scripts/new-problem.js"
+    "new": "node scripts/new-problem.js",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -18,9 +19,14 @@
   },
   "homepage": "https://github.com/zhijiang3/leetcode#readme",
   "devDependencies": {
+    "@babel/core": "^7.7.7",
+    "@babel/node": "^7.7.7",
+    "@babel/preset-env": "^7.7.7",
+    "babel-jest": "^24.9.0",
     "chalk": "^3.0.0",
     "fs-extra": "^8.1.0",
     "inquirer": "^7.0.3",
+    "jest": "^24.9.0",
     "minimist": "^1.2.0"
   }
 }

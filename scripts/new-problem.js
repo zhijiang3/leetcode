@@ -37,4 +37,10 @@ const problem = args._[0];
   } catch (err) {
     console.log("err: ", err);
   }
+
+  try {
+    await fs.ensureFile(path.resolve(`problems/${problem}/${problem}.test.js`));
+  } catch (err) {
+    console.log("err: ", err);
+  }
 })();
