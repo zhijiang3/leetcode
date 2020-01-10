@@ -1,0 +1,20 @@
+{
+  "name": "leetcode",
+  "version": "0.0.1",
+  "workspaces": [
+    "problems/*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhijiang3/leetcode.git"
+  },
+  "keywords": [
+    "leetcode"
+  ],
+  "author": "zhijiang3",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zhijiang3/leetcode/issues"
+  },
+  "homepage": "https://github.com/zhijiang3/leetcode#readme"
+}
