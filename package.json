@@ -1,9 +1,9 @@
 {
   "name": "leetcode",
   "version": "0.0.1",
-  "workspaces": [
-    "problems/*"
-  ],
+  "scripts": {
+    "new": "node scripts/new-problem.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/zhijiang3/leetcode.git"
@@ -16,5 +16,11 @@
   "bugs": {
     "url": "https://github.com/zhijiang3/leetcode/issues"
   },
-  "homepage": "https://github.com/zhijiang3/leetcode#readme"
+  "homepage": "https://github.com/zhijiang3/leetcode#readme",
+  "devDependencies": {
+    "chalk": "^3.0.0",
+    "fs-extra": "^8.1.0",
+    "inquirer": "^7.0.3",
+    "minimist": "^1.2.0"
+  }
 }
