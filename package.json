@@ -2,7 +2,7 @@
   "name": "leetcode",
   "version": "0.0.1",
   "scripts": {
-    "new": "node scripts/new-problem.js",
+    "new:problem": "node scripts/new-problem.js",
     "test": "jest"
   },
   "repository": {
@@ -26,7 +26,6 @@
     "chalk": "^3.0.0",
     "fs-extra": "^8.1.0",
     "inquirer": "^7.0.3",
-    "jest": "^24.9.0",
-    "minimist": "^1.2.0"
+    "jest": "^24.9.0"
   }
 }

@@ -1,4 +1,4 @@
-import myPow from './50.powx-n';
+import myPow from "./solution.js";
 
 test("example 1", () => {
   expect(myPow(2.00000, 10)).toBe(1024.00000);

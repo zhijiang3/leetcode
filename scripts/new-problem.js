@@ -1,46 +1,172 @@
-const path = require("path");
-const chalk = require("chalk");
+const _ = require("lodash");
 const fs = require("fs-extra");
+const path = require("path");
 const inquirer = require("inquirer");
-const args = require("minimist")(process.argv.slice(2));
-const problem = args._[0];
 
-;(async () => {
-  if (!(/^(\d+)\.([\w|-]+)$/.test(problem))) {
-    console.log("");
-    console.log(chalk.red("[ERROR]") + " 请输入正确的名称，格式如：50.powx-n");
-    console.log("");
-    return;
-  }
+newProblem();
 
-  if (fs.pathExistsSync(path.resolve(`problems/${problem}`))) {
-    const answers = await inquirer.prompt([
+async function newProblem() {
+  const answers = await inquirer.prompt([
+    {
+      type: "input",
+      name: "num",
+      message: "题目编号",
+      validate(input = "") {
+        if (!input.trim() || isNaN(Number(input))) {
+          return "请输入有效的编号";
+        }
+
+        return true;
+      }
+    },
+    {
+      type: "input",
+      name: "title",
+      message: "题目名称",
+      filter(input) {
+        return _.kebabCase(input);
+      }
+    },
+    {
+      type: "list",
+      name: "difficulty",
+      message: "难度",
+      choices: [
+        "简单",
+        "中等",
+        "困难"
+      ]
+    }
+  ]);
+
+  // problem/README.md
+  await overwriteFile(
+    path.resolve(`problems/${answers.num}.${answers.title}/README.md`),
+    getProblemTemplate(_.startCase(answers.title), getLeetcodeLink(answers.title))
+  );
+
+  // problem/solution.js
+  const solutionArgs = await inquirer.prompt([
+    {
+      type: "input",
+      name: "name",
+      message: "函数名称",
+      default: _.camelCase(answers.title),
+      filter(input) {
+        return _.camelCase(input);
+      }
+    },
+    {
+      type: "input",
+      name: "arguments",
+      message: "函数参数，用逗号隔开如：nums: string, target: string[]",
+      filter(input = "") {
+        return input.split(",").reduce((res, arg) => {
+          const [argName, type] = arg.split(":");
+
+          if (argName && type) {
+            res[argName.trim()] = type.trim();
+          }
+
+          return res;
+        }, {});
+      }
+    },
+    {
+      type: "input",
+      name: "returnType",
+      message: "返回值",
+      filter(input) {
+        if (input === "null") {
+          return false;
+        }
+
+        return input;
+      }
+    }
+  ]);
+  await overwriteFile(
+    path.resolve(`problems/${answers.num}.${answers.title}/solution.js`),
+    getSolutionTemplate(solutionArgs.name, solutionArgs.arguments, solutionArgs.returnType)
+  );
+
+  // problems/solution.test.js
+  await overwriteFile(
+    path.resolve(`problems/${answers.num}.${answers.title}/solution.test.js`),
+    getTestTemplate(solutionArgs.name)
+  );
+
+  // README.md
+  const README = await fs.readFile(path.resolve("README.md"), "utf8");
+  await fs.outputFile(path.resolve("README.md"), `${README}
+  | ${answers.num} | [${_.startCase(answers.title)}](problems/${answers.num}.${answers.title}/README.md) | [JavaScript](problems/${answers.num}.${answers.title}/solution.js) | ${answers.difficulty}`);
+}
+
+async function overwriteFile(filePath, data) {
+  if (await fs.pathExists(filePath)) {
+    const { overwrite } = await inquirer.prompt([
       {
         type: "confirm",
-        name: "continue",
-        message: `${problem} 文件夹已存在，是否继续？`,
+        name: "overwrite",
+        message: `${filePath} 文件已存在，是否覆盖该文件？`,
         default: false
       }
     ]);
 
-    if (!answers.continue) return;
+    if (!overwrite) return;
   }
 
-  try {
-    await fs.ensureFile(path.resolve(`problems/${problem}/README.md`));
-  } catch (err) {
-    console.log("err: ", err);
-  }
+  await fs.outputFile(filePath, data);
+}
 
-  try {
-    await fs.ensureFile(path.resolve(`problems/${problem}/${problem}.js`));
-  } catch (err) {
-    console.log("err: ", err);
-  }
+function getLeetcodeLink(name) {
+  return `https://leetcode-cn.com/problems/${name}/`;
+}
 
-  try {
-    await fs.ensureFile(path.resolve(`problems/${problem}/${problem}.test.js`));
-  } catch (err) {
-    console.log("err: ", err);
-  }
-})();
+function getProblemTemplate(name = "", link = "") {
+return `\
+# ${name}
+
+> 题目地址: [${link}](${link})
+
+## 题目描述
+`;
+}
+
+function getSolutionTemplate(functionName = "name", args = {}, returnType) {
+  const comments = getComments(
+    Object.keys(args).map(arg => ({
+      commentType: "param",
+      type: args[arg],
+      name: arg
+    })).concat(
+      returnType ? { commentType: "return", type: returnType } : ""
+    ).filter(item => !!item)
+  );
+return `\
+${comments}export function ${functionName}(${Object.keys(args).join(", ")}) {
+};
+`;
+}
+
+function getComment({ commentType, type, name = "", desc = "" } = {}) {
+  return ` * @${commentType} {${type}}${name ? " " + name : "" }${desc ? " " + desc : ""}`;
+}
+
+function getComments(comments = []) {
+  if (comments.length <= 0) return "";
+
+  return `/**
+${comments.map(comment => getComment(comment)).join("\n")}
+ */\n`
+}
+
+function getTestTemplate(importName = "solution") {
+return `\
+import ${importName} from "./solution.js";
+
+test("example 1", () => {
+  expect(${importName}()).toBe();
+});
+`;
+}
