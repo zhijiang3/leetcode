@@ -99,7 +99,7 @@ async function newProblem() {
   // README.md
   const README = await fs.readFile(path.resolve("README.md"), "utf8");
   await fs.outputFile(path.resolve("README.md"), `${README}
-  | ${answers.num} | [${_.startCase(answers.title)}](problems/${answers.num}.${answers.title}/README.md) | [JavaScript](problems/${answers.num}.${answers.title}/solution.js) | ${answers.difficulty}`);
+| ${answers.num} | [${_.startCase(answers.title)}](problems/${answers.num}.${answers.title}/README.md) | [JavaScript](problems/${answers.num}.${answers.title}/solution.js) | ${answers.difficulty}`);
 }
 
 async function overwriteFile(filePath, data) {
@@ -149,7 +149,7 @@ function getSolutionTemplate(functionName = "name", args = {}, returnType) {
     ).filter(item => !!item)
   );
 return `\
-${comments}export function ${functionName}(${Object.keys(args).join(", ")}) {
+${comments}export default function ${functionName}(${Object.keys(args).join(", ")}) {
 };
 `;
 }
