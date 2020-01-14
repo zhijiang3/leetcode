@@ -65,7 +65,7 @@ function myPow(x, n) {
   }
 
   while (n) {
-    if (n & 1 === 1) ans = ans * x;
+    if ((n & 1) === 1) ans = ans * x;
 
     x = x * x;
     n = n >>> 1;

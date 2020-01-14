@@ -31,11 +31,7 @@ async function newProblem() {
       type: "list",
       name: "difficulty",
       message: "难度",
-      choices: [
-        "简单",
-        "中等",
-        "困难"
-      ]
+      choices: ["简单", "中等", "困难"]
     }
   ]);
 
@@ -98,8 +94,13 @@ async function newProblem() {
 
   // README.md
   const README = await fs.readFile(path.resolve("README.md"), "utf8");
-  await fs.outputFile(path.resolve("README.md"), `${README}
-| ${answers.num} | [${_.startCase(answers.title)}](problems/${answers.num}.${answers.title}/README.md) | [JavaScript](problems/${answers.num}.${answers.title}/solution.js) | ${answers.difficulty}`);
+  await fs.outputFile(
+    path.resolve("README.md"),
+    `${README}
+| ${answers.num} | [${_.startCase(answers.title)}](problems/${answers.num}.${
+      answers.title
+    }/README.md) | [JavaScript](problems/${answers.num}.${answers.title}/solution.js) | ${answers.difficulty}`
+  );
 }
 
 async function overwriteFile(filePath, data) {
@@ -124,7 +125,7 @@ function getLeetcodeLink(name) {
 }
 
 function getProblemTemplate(name = "", link = "") {
-return `\
+  return `\
 # ${name}
 
 > 题目地址: [${link}](${link})
@@ -140,22 +141,23 @@ return `\
 
 function getSolutionTemplate(functionName = "name", args = {}, returnType) {
   const comments = getComments(
-    Object.keys(args).map(arg => ({
-      commentType: "param",
-      type: args[arg],
-      name: arg
-    })).concat(
-      returnType ? { commentType: "return", type: returnType } : ""
-    ).filter(item => !!item)
+    Object.keys(args)
+      .map(arg => ({
+        commentType: "param",
+        type: args[arg],
+        name: arg
+      }))
+      .concat(returnType ? { commentType: "return", type: returnType } : "")
+      .filter(item => !!item)
   );
-return `\
+  return `\
 ${comments}export default function ${functionName}(${Object.keys(args).join(", ")}) {
-};
+}
 `;
 }
 
 function getComment({ commentType, type, name = "", desc = "" } = {}) {
-  return ` * @${commentType} {${type}}${name ? " " + name : "" }${desc ? " " + desc : ""}`;
+  return ` * @${commentType} {${type}}${name ? " " + name : ""}${desc ? " " + desc : ""}`;
 }
 
 function getComments(comments = []) {
@@ -163,11 +165,11 @@ function getComments(comments = []) {
 
   return `/**
 ${comments.map(comment => getComment(comment)).join("\n")}
- */\n`
+ */\n`;
 }
 
 function getTestTemplate(importName = "solution") {
-return `\
+  return `\
 import ${importName} from "./solution.js";
 
 test("example 1", () => {

@@ -21,4 +21,4 @@ export default function searchInsert(nums, target) {
   }
 
   return mid;
-};
+}

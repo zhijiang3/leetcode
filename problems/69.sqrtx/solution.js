@@ -12,4 +12,4 @@ export default function mySqrt(x) {
   } while (Math.abs(check) > 0.01);
 
   return n | 0;
-};
+}
