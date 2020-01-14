@@ -21,3 +21,4 @@
 | 35   | [Search Insert Position](problems/35.search-insert-position/README.md) | [JavaScript](problems/35.search-insert-position/solution.js) | 简单 |
 | 50   | [Pow(x, n)](problems/50.powx-n/README.md)                              | [JavaScript](problems/50.powx-n/solution.js)                 | 中等 |
 | 69   | [Sqrt(x)](problems/69.sqrtx/README.md)                                 | [JavaScript](problems/69.sqrtx/solution.js)                  | 简单 |
+| 1281 | [Subtract the Product and Sum of Digits of an Integer](problems/1281.subtract-the-product-and-sum-of-digits-of-an-integer/README.md) | [JavaScript](problems/1281.subtract-the-product-and-sum-of-digits-of-an-integer/solution.js) | 简单
