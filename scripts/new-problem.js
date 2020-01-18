@@ -35,12 +35,6 @@ async function newProblem() {
     }
   ]);
 
-  // problem/README.md
-  await overwriteFile(
-    path.resolve(`problems/${answers.num}.${answers.title}/README.md`),
-    getProblemTemplate(_.startCase(answers.title), getLeetcodeLink(answers.title))
-  );
-
   // problem/solution.js
   const solutionArgs = await inquirer.prompt([
     {
@@ -86,6 +80,15 @@ async function newProblem() {
     getSolutionTemplate(solutionArgs.name, solutionArgs.arguments, solutionArgs.returnType)
   );
 
+  // problem/README.md
+  await overwriteFile(
+    path.resolve(`problems/${answers.num}.${answers.title}/README.md`),
+    getProblemTemplate(_.startCase(answers.title), getLeetcodeLink(answers.title), {
+      name: solutionArgs.name,
+      args: Object.keys(solutionArgs.arguments)
+    })
+  );
+
   // problems/solution.test.js
   await overwriteFile(
     path.resolve(`problems/${answers.num}.${answers.title}/solution.test.js`),
@@ -124,7 +127,7 @@ function getLeetcodeLink(name) {
   return `https://leetcode-cn.com/problems/${name}/`;
 }
 
-function getProblemTemplate(name = "", link = "") {
+function getProblemTemplate(name = "", link = "", fn = { name: "", args: [] }) {
   return `\
 # ${name}
 
@@ -135,6 +138,18 @@ function getProblemTemplate(name = "", link = "") {
 ------
 
 ## 题解
+
+### 代码实现
+
+\`\`\`js
+function ${fn.name}(${fn.args.join(", ")}) {
+}
+\`\`\`
+
+### 复杂度分析
+
+* 时间复杂度：$ O() $.
+* 空间复杂度：$ O() $.
 
 `;
 }
