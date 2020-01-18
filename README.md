@@ -26,3 +26,4 @@
 | 1275 | [Find Winner on a Tic Tac Toe Game](problems/1275.find-winner-on-a-tic-tac-toe-game/README.md)                                       | [JavaScript](problems/1275.find-winner-on-a-tic-tac-toe-game/solution.js)                    | 简单 |
 | 1281 | [Subtract the Product and Sum of Digits of an Integer](problems/1281.subtract-the-product-and-sum-of-digits-of-an-integer/README.md) | [JavaScript](problems/1281.subtract-the-product-and-sum-of-digits-of-an-integer/solution.js) | 简单 |
 | 1304 | [Find N Unique Integers Sum up to Zero](problems/1304.find-n-unique-integers-sum-up-to-zero/README.md)                               | [JavaScript](problems/1304.find-n-unique-integers-sum-up-to-zero/solution.js)                | 简单 |
+| 1309 | [Decrypt String from Alphabet to Integer Mapping](problems/1309.decrypt-string-from-alphabet-to-integer-mapping/README.md)           | [JavaScript](problems/1309.decrypt-string-from-alphabet-to-integer-mapping/solution.js)      | 简单 |
