@@ -1,13 +1,5 @@
 import getIntersectionNode from "./solution.js";
-
-/**
- * @param {number} val
- * @return {ListNode}
- */
-function ListNode(val) {
-  this.val = val;
-  this.next = null;
-}
+import ListNode from "data-structure/ListNode";
 
 test("example 1", () => {
   const headA = new ListNode(4);
