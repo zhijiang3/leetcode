@@ -18,6 +18,7 @@
 
 | 编号 | 题目                                                                                                                                 | 解决方案                                                                                     | 难度 |
 |------|--------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------|------|
+| 2    | [Add Two Numbers](problems/2.add-two-numbers/README.md)                                                                              | [JavaScript](problems/2.add-two-numbers/solution.js)                                         | 中等 |
 | 7    | [Reverse Integer](problems/7.reverse-integer/README.md)                                                                              | [JavaScript](problems/7.reverse-integer/solution.js)                                         | 简单 |
 | 35   | [Search Insert Position](problems/35.search-insert-position/README.md)                                                               | [JavaScript](problems/35.search-insert-position/solution.js)                                 | 简单 |
 | 50   | [Pow(x, n)](problems/50.powx-n/README.md)                                                                                            | [JavaScript](problems/50.powx-n/solution.js)                                                 | 中等 |
