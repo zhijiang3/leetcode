@@ -31,7 +31,15 @@ async function newProblem() {
       type: "list",
       name: "difficulty",
       message: "难度",
-      choices: ["简单", "中等", "困难"]
+      choices: ["简单", "中等", "困难"],
+      filter(input) {
+        const colorMap = {
+          简单: "#009975",
+          中等: "#ED7336",
+          困难: "#EC4C47"
+        };
+        return `<span style="color: ${colorMap[input]};">${input}</span>`;
+      }
     }
   ]);
 
