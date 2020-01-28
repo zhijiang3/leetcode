@@ -70,9 +70,9 @@ $$
 
 由于链表中从高位到低位存放数字的二进制表示，所以我们需要对高位进行 `2` 的累乘，即：
 
-第一位 $A = a$
-第二位 $B = 2 \times A + b = 2 \times a + b$
-第三位 $C = 2 \times B + c = 2 \times (2 \times a + b) + c = 2^2 \times a + 2 \times b + c$
+第一位 $A = a$  
+第二位 $B = 2 \times A + b = 2 \times a + b$  
+第三位 $C = 2 \times B + c = 2 \times (2 \times a + b) + c = 2^2 \times a + 2 \times b + c$  
 
 可以看到，我们每次对上一次计算的结果乘以 `2` 即可把之前的数进一位。
 
