@@ -134,7 +134,7 @@ $$
 
 $$
 \begin{cases}
-a + b = 4 & a_{5}\\
+a + b = 4 & a_{5} \\\\
 a + 2b = 5 & a_{6}
 \end{cases}
 $$

@@ -45,13 +45,13 @@ $$
 故当 `n` 为奇数时：
 
 $$
-A = \{x|0, 1, -1, ..., x, -x\} \quad (x = \lfloor \frac{n} {2} \rfloor, x \in Z)
+A = \lbrace x|0, 1, -1, ..., x, -x \rbrace \quad (x = \lfloor \frac{n} {2} \rfloor, x \in Z)
 $$
 
 当 `n` 为偶数时：
 
 $$
-A = \{x|1, -1, ..., x, -x\} \quad (x = \lfloor \frac{n} {2} \rfloor, x \in Z)
+A = \lbrace x|1, -1, ..., x, -x \rbrace \quad (x = \lfloor \frac{n} {2} \rfloor, x \in Z)
 $$
 
 对于 `n = 5（奇数）` 我们需要这样的数组 `[0, 1, -1, 2, -2]`。
