@@ -2,34 +2,42 @@ import TreeNode from "data-structure/TreeNode";
 import ListNode from "data-structure/ListNode";
 
 /**
- * @param {number[]} nums
- * @param {number} left
- * @param {number} right
- * @return {TreeNode}
- */
-function helper(nums, left, right) {
-  if (left > right) return null;
-
-  const mid = Math.floor((left + right) / 2);
-
-  const node = new TreeNode(nums[mid]);
-  node.left = helper(nums, left, mid - 1);
-  node.right = helper(nums, mid + 1, right);
-
-  return node;
-}
-
-/**
  * @param {ListNode} head
  * @return {TreeNode}
  */
 export default function sortedListToBST(head) {
-  const nums = [];
-  while (head) {
-    nums.push(head.val);
+  let count = 0;
+  let node = head;
 
-    head = head.next;
+  while (node) {
+    count++;
+    node = node.next;
   }
 
-  return helper(nums, 0, nums.length - 1);
+  /**
+   * @param {ListNode} head
+   * @param {number} left
+   * @param {number} right
+   * @return {TreeNode}
+   */
+  function helper(left, right) {
+    if (left > right) return null;
+
+    const mid = Math.floor((left + right) / 2);
+
+    // 递归形成左半部分
+    const leftNode = helper(left, mid - 1);
+
+    // 左半边的节点处理完成后，处理当前节点
+    const node = new TreeNode(head.val);
+    node.left = leftNode;
+    head = head.next;
+
+    // 递归完成右半部分
+    node.right = helper(mid + 1, right);
+
+    return node;
+  }
+
+  return helper(0, count - 1);
 }

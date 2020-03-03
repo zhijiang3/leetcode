@@ -107,3 +107,71 @@ function sortedListToBST(head) {
 
 * 时间复杂度：$ O(n) $.
 * 空间复杂度：$ O(n) $.
+
+### 二叉搜索树的中序遍历模拟
+
+> 此算法参考：[https://leetcode-cn.com/problems/convert-sorted-list-to-binary-search-tree/solution/you-xu-lian-biao-zhuan-huan-er-cha-sou-suo-shu-by-/](https://leetcode-cn.com/problems/convert-sorted-list-to-binary-search-tree/solution/you-xu-lian-biao-zhuan-huan-er-cha-sou-suo-shu-by-/)
+
+中序遍历一棵二叉搜索树会有一个非常有趣的结论。
+
+> 中序遍历一棵二叉搜索树的结果是得到一个升序序列。
+
+这个方法模拟了二叉搜索树的构造过程，因为我们已经获得有序的链表，所以自然的产生了这样的想法。
+
+在描述算法之前，先看一下中序遍历是如何获得有序值的。
+
+基于解决这个问题的中序遍历的思想：
+
+> 我们知道中序遍历最左边的元素一定是给定链表的头部，类似地下一个元素一定是链表的下一个元素，以此类推。这是肯定的因为给定的初始链表保证了升序排列。
+
+在了解了中序遍历二叉搜索树和有序数组的关系之后，让我们来看看算法。
+
+#### 代码实现
+
+```js
+/**
+ * @param {ListNode} head
+ * @return {TreeNode}
+ */
+function sortedListToBST(head) {
+  let count = 0;
+  let node = head;
+
+  while (node) {
+    count++;
+    node = node.next;
+  }
+
+  /**
+   * @param {ListNode} head
+   * @param {number} left
+   * @param {number} right
+   * @return {TreeNode}
+   */
+  function helper(left, right) {
+    if (left > right) return null;
+
+    const mid = Math.floor((left + right) / 2);
+
+    // 递归形成左半部分
+    const leftNode = helper(left, mid - 1);
+
+    // 左半边的节点处理完成后，处理当前节点
+    const node = new TreeNode(head.val);
+    node.left = leftNode;
+    head = head.next;
+
+    // 递归完成右半部分
+    node.right = helper(mid + 1, right);
+
+    return node;
+  }
+
+  return helper(0, count - 1);
+}
+```
+
+#### 复杂度分析
+
+* 时间复杂度：$ O(n) $.
+* 空间复杂度：$ O(1) $.
