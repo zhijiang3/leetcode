@@ -46,3 +46,70 @@
 * `grid[i][j]` 仅为 `0`、`1` 或 `2`
 
 ------
+
+## 题解
+
+### 多源广度优先搜索
+
+对于一开始的腐烂橘子，**在广度优先搜索中，它们都是在同一层上的，也就是题目中的同一分钟**。
+
+而过了一分钟后，第一层的腐烂橘子会把相邻的新鲜橘子腐烂，此时相邻的新鲜橘子可知是第二层（因为是由第一层腐烂的），然后第二层被腐烂的新鲜橘子继续向外拓展。
+
+所以我们可以**先把第一层的所有腐烂橘子收集起来，用 `depth` 变量记录其层数**。
+
+而后开始广度优先搜索算法，**如果在当前层中找到下一层会被腐烂的新鲜橘子，那么将新鲜橘子加入队列，并记录其层数为 `当前层 + 1`。**
+
+#### 代码实现
+
+```js
+const dx = [-1, 0, 1, 0];
+const dy = [0, -1, 0, 1];
+
+/**
+ * @param {number[][]} grid
+ * @return {number}
+ */
+function orangesRotting(grid) {
+  const rowLength = grid.length;
+  const colLength = grid[0].length;
+  const queue = [];
+  const depth = {};
+
+  let minutes = 0;
+  let total = 0;
+
+  for (let x = 0; x < rowLength; ++x) {
+    for (let y = 0; y < colLength; ++y) {
+      if (grid[x][y] === 2) {
+        depth[`${x}-${y}`] = 0;
+        queue.push([x, y]);
+      }
+      if (grid[x][y] === 1) total++;
+    }
+  }
+
+  while (queue.length) {
+    const [x, y] = queue.shift();
+
+    for (let i = 0; i < dx.length; i++) {
+      const nx = x + dx[i];
+      const ny = y + dy[i];
+
+      if (nx >= 0 && nx < rowLength && ny >= 0 && ny < colLength && grid[nx][ny] === 1) {
+        grid[nx][ny] = 2;
+        total--;
+        queue.push([nx, ny]);
+        depth[`${nx}-${ny}`] = depth[`${x}-${y}`] + 1;
+        minutes = depth[`${nx}-${ny}`];
+      }
+    }
+  }
+
+  return total ? -1 : minutes;
+}
+```
+
+#### 复杂度分析
+
+* 时间复杂度：$ O(nm) $.
+* 空间复杂度：$ O(nm) $.
