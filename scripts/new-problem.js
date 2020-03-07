@@ -10,14 +10,7 @@ async function newProblem() {
     {
       type: "input",
       name: "num",
-      message: "题目编号",
-      validate(input = "") {
-        if (!input.trim() || isNaN(Number(input))) {
-          return "请输入有效的编号";
-        }
-
-        return true;
-      }
+      message: "题目编号"
     },
     {
       type: "input",
