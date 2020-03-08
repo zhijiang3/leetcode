@@ -2,6 +2,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
+      "shared/*": ["./shared/*"],
       "data-structure/*": ["./data-structure/*"],
       "problems/*": ["./problems/*"]
     }
