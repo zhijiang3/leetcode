@@ -19,3 +19,27 @@ test("example 3", () => {
   /* prettier-ignore */
   expect(output.slice().sort((b, a) => b - a)).toEqual([0, 0, 0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 5, 6, 8, 8, 8, 8, 8, 8, 8, 9, 9, 10, 10, 10, 11, 11, 12, 12, 12, 13, 14, 15, 16, 16, 17, 17, 18, 18, 18, 18, 21, 21, 22, 22, 23, 25, 25, 26, 27]);
 });
+
+test("example 4", () => {
+  const output = getLeastNumbers([3, 2, 1, 1, 1, 1], 4);
+
+  expect(output.slice().sort((b, a) => b - a)).toEqual([1, 1, 1, 1]);
+});
+
+test("example 5", () => {
+  const output = getLeastNumbers([2, 3, 1, 1, 1, 1], 4);
+
+  expect(output.slice().sort((b, a) => b - a)).toEqual([1, 1, 1, 1]);
+});
+
+test("example 6", () => {
+  const output = getLeastNumbers([1, 2, 3, 1, 1, 1], 4);
+
+  expect(output.slice().sort((b, a) => b - a)).toEqual([1, 1, 1, 1]);
+});
+
+test("example 7", () => {
+  const output = getLeastNumbers([12, 17, 23, 10, 1, 7, 13, 5, 14, 6], 5);
+
+  expect(output.slice().sort((b, a) => b - a)).toEqual([1, 5, 6, 7, 10]);
+});

@@ -10,54 +10,46 @@ function swap(arr, i, j) {
 }
 
 /**
- * @param {number[]} arr
- * @param {number} l
- * @param {number} r
+ * @param {number[]} heap
+ * @param {number} num
  */
-function partition(arr, l, r) {
-  const pivot = arr[r];
+function pushToHeap(heap, num) {
+  heap.push(num);
 
-  let i = l - 1;
-  for (let j = l; j <= r - 1; ++j) {
-    if (pivot >= arr[j]) {
-      i = i + 1;
-      swap(arr, i, j);
-    }
+  // heapify up
+  let currentIndex = heap.length - 1;
+  let parentIndex = Math.floor((currentIndex - 1) / 2);
+
+  while (parentIndex >= 0 && heap[parentIndex] < heap[currentIndex]) {
+    swap(heap, currentIndex, parentIndex);
+
+    currentIndex = parentIndex;
+    parentIndex = Math.floor((currentIndex - 1) / 2);
   }
-
-  swap(arr, i + 1, r);
-
-  return i + 1;
 }
 
 /**
- * @param {number[]} arr
- * @param {number} l
- * @param {number} r
+ * @param {number[]} heap
+ * @param {number} customStartIndex
  */
-function randomizedPartition(arr, l, r) {
-  const i = Math.floor(Math.random() * (r - l) + l);
+function maxHeapify(heap, customStartIndex = 0) {
+  let currentIndex = customStartIndex;
 
-  swap(arr, i, r);
+  let largest, leftChildIndex, rightChildIndex;
 
-  return partition(arr, l, r);
-}
+  while (true) {
+    largest = currentIndex;
+    leftChildIndex = 2 * currentIndex + 1;
+    rightChildIndex = 2 * currentIndex + 2;
 
-/**
- * @param {number[]} arr
- * @param {number} l
- * @param {number} r
- * @param {number} k
- */
-function randomizedSelected(arr, l, r, k) {
-  if (l >= r) return;
+    if (leftChildIndex < heap.length && heap[leftChildIndex] > heap[largest]) largest = leftChildIndex;
+    if (rightChildIndex < heap.length && heap[rightChildIndex] > heap[largest]) largest = rightChildIndex;
 
-  const pos = randomizedPartition(arr, l, r);
-  const num = pos - l + 1;
+    if (largest === currentIndex) break;
 
-  if (num === k) return;
-  else if (num > k) randomizedSelected(arr, l, pos - 1, k);
-  else if (num < k) randomizedSelected(arr, pos + 1, r, k - num);
+    swap(heap, currentIndex, largest);
+    currentIndex = largest;
+  }
 }
 
 /**
@@ -66,7 +58,18 @@ function randomizedSelected(arr, l, r, k) {
  * @return {number[]}
  */
 export default function getLeastNumbers(arr, k) {
-  randomizedSelected(arr, 0, arr.length - 1, k);
+  const heap = [];
 
-  return arr.slice(0, k);
+  for (let i = 0; i < k; ++i) {
+    pushToHeap(heap, arr[i]);
+  }
+
+  for (let i = k; i < arr.length; ++i) {
+    if (heap[0] > arr[i]) {
+      heap[0] = arr[i];
+      maxHeapify(heap);
+    }
+  }
+
+  return heap;
 }
