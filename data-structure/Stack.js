@@ -30,4 +30,11 @@ export default class Stack {
   isEmpty() {
     return this.elements.length === 0;
   }
+
+  /**
+   * @return {number}
+   */
+  size() {
+    return this.elements.length;
+  }
 }
