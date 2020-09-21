@@ -1,4 +1,26 @@
 import ListNode from "data-structure/ListNode";
+import TreeNode from "data-structure/TreeNode";
+
+/**
+ * @param {TreeNode} root
+ * @return {[]}
+ */
+export function treeToArray(root) {
+  if (!root) return [];
+
+  const arr = [];
+
+  const stack = [root];
+  while (stack.length) {
+    root = stack.shift();
+
+    arr.push(root.val);
+    if (root.left) stack.push(root.left);
+    if (root.right) stack.push(root.right);
+  }
+
+  return arr;
+}
 
 /**
  * @param {ListNode} head
