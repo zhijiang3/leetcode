@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "pretty": true,
+    "moduleResolution": "node",
+    "lib": [
+      "es5",
+      "es2015.core",
+      "es2015.symbol",
+      "es2015.collection",
+      "es2015.promise",
+      "es2015.iterable",
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "shared/*": ["./shared/*"],
+      "data-structure/*": ["./data-structure/*"],
+      "problems/*": ["./problems/*"]
+    }
+  },
+  "include": ["problems", "data-structure", "shared"]
+}
