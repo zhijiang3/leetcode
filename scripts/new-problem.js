@@ -27,16 +27,16 @@ async function newProblem() {
       choices: ["简单", "中等", "困难"],
       filter(input) {
         const colorMap = {
-          简单: "#009975",
-          中等: "#ED7336",
-          困难: "#EC4C47"
+          ["简单"]: "#009975",
+          ["中等"]: "#ED7336",
+          ["困难"]: "#EC4C47"
         };
         return `<span style="color: ${colorMap[input]};">${input}</span>`;
       }
     }
   ]);
 
-  // problem/solution.js
+  // problem/solution.ts
   const solutionArgs = await inquirer.prompt([
     {
       type: "input",
@@ -52,15 +52,16 @@ async function newProblem() {
       name: "arguments",
       message: "函数参数，用逗号隔开如：nums: string, target: string[]",
       filter(input = "") {
-        return input.split(",").reduce((res, arg) => {
-          const [argName, type] = arg.split(":");
+        return input
+          .split(",")
+          .reduce((res, arg) => {
+            const [argName, type] = arg.split(":");
 
-          if (argName && type) {
-            res[argName.trim()] = type.trim();
-          }
+            res.push(`${argName.trim()}${type ? ": " + type.trim() : ""}`);
 
-          return res;
-        }, {});
+            return res;
+          }, [])
+          .join(", ");
       }
     },
     {
@@ -77,7 +78,7 @@ async function newProblem() {
     }
   ]);
   await overwriteFile(
-    path.resolve(`problems/${answers.num}.${answers.title}/solution.js`),
+    path.resolve(`problems/${answers.num}.${answers.title}/solution.ts`),
     getSolutionTemplate(solutionArgs.name, solutionArgs.arguments, solutionArgs.returnType)
   );
 
@@ -86,13 +87,14 @@ async function newProblem() {
     path.resolve(`problems/${answers.num}.${answers.title}/README.md`),
     getProblemTemplate(_.startCase(answers.title), getLeetcodeLink(answers.title), {
       name: solutionArgs.name,
-      args: Object.keys(solutionArgs.arguments)
+      args: solutionArgs.arguments,
+      returnType: solutionArgs.returnType
     })
   );
 
-  // problems/solution.test.js
+  // problems/solution.test.ts
   await overwriteFile(
-    path.resolve(`problems/${answers.num}.${answers.title}/solution.test.js`),
+    path.resolve(`problems/${answers.num}.${answers.title}/solution.test.ts`),
     getTestTemplate(solutionArgs.name)
   );
 
@@ -101,9 +103,9 @@ async function newProblem() {
   await fs.outputFile(
     path.resolve("README.md"),
     `${README}
-| ${answers.num} | [${_.startCase(answers.title)}](problems/${answers.num}.${
-      answers.title
-    }/README.md) | [JavaScript](problems/${answers.num}.${answers.title}/solution.js) | ${answers.difficulty}`
+| ${answers.num} | [${_.startCase(answers.title)}](problems/${answers.num}.${answers.title}) | [TypeScript](problems/${
+      answers.num
+    }.${answers.title}/solution.ts) | ${answers.difficulty}`
   );
 }
 
@@ -128,7 +130,7 @@ function getLeetcodeLink(name) {
   return `https://leetcode-cn.com/problems/${name}/`;
 }
 
-function getProblemTemplate(name = "", link = "", fn = { name: "", args: [] }) {
+function getProblemTemplate(name = "", link = "", fn = { name: "", args: [], returnType: "" }) {
   return `\
 # ${name}
 
@@ -142,8 +144,8 @@ function getProblemTemplate(name = "", link = "", fn = { name: "", args: [] }) {
 
 ### 代码实现
 
-\`\`\`js
-function ${fn.name}(${fn.args.join(", ")}) {
+\`\`\`ts
+function ${fn.name}(${fn.args})${fn.returnType ? ": " + fn.returnType.trim() : ""} {
 }
 \`\`\`
 
@@ -154,40 +156,17 @@ function ${fn.name}(${fn.args.join(", ")}) {
 `;
 }
 
-function getSolutionTemplate(functionName = "name", args = {}, returnType) {
-  const comments = getComments(
-    Object.keys(args)
-      .map(arg => ({
-        commentType: "param",
-        type: args[arg],
-        name: arg
-      }))
-      .concat(returnType ? { commentType: "return", type: returnType } : "")
-      .filter(item => !!item)
-  );
-  return `\
-${comments}export default function ${functionName}(${Object.keys(args).join(", ")}) {
+function getSolutionTemplate(functionName = "name", args = "", returnType) {
+  return `export default function ${functionName}(${args})${returnType ? ": " + returnType.trim() : ""} {
 }
 `;
 }
 
-function getComment({ commentType, type, name = "", desc = "" } = {}) {
-  return ` * @${commentType} {${type}}${name ? " " + name : ""}${desc ? " " + desc : ""}`;
-}
-
-function getComments(comments = []) {
-  if (comments.length <= 0) return "";
-
-  return `/**
-${comments.map(comment => getComment(comment)).join("\n")}
- */\n`;
-}
-
 function getTestTemplate(importName = "solution") {
   return `\
-import ${importName} from "./solution.js";
+import ${importName} from "./solution";
 
-test("example 1", () => {
+test("示例", () => {
   expect(${importName}()).toBe();
 });
 `;
