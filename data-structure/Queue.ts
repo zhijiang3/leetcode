@@ -1,33 +1,22 @@
-export default class Queue {
+export default class Queue<T> {
+  private queue: T[];
+
   constructor() {
     this.queue = [];
   }
 
-  /**
-   * @param {number} x
-   * @return {void}
-   */
-  enqueue(x) {
+  enqueue(x: T) {
     this.queue.push(x);
   }
 
-  /**
-   * @return {number}
-   */
   peek() {
     return this.queue[0];
   }
 
-  /**
-   * @return {void}
-   */
   dequeue() {
     this.queue.shift();
   }
 
-  /**
-   * @return {boolean}
-   */
   isEmpty() {
     return this.queue.length === 0;
   }

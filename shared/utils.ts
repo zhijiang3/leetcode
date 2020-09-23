@@ -1,11 +1,7 @@
 import ListNode from "data-structure/ListNode";
 import TreeNode from "data-structure/TreeNode";
 
-/**
- * @param {TreeNode} root
- * @return {[]}
- */
-export function treeToArray(root) {
+export function treeToArray<T>(root?: TreeNode<T>): T[] {
   if (!root) return [];
 
   const arr = [];
@@ -22,11 +18,7 @@ export function treeToArray(root) {
   return arr;
 }
 
-/**
- * @param {ListNode} head
- * @return {number[]}
- */
-export function listToArray(head) {
+export function listToArray<T>(head: ListNode<T>): T[] {
   const arr = [];
 
   while (head) {
@@ -38,12 +30,8 @@ export function listToArray(head) {
   return arr;
 }
 
-/**
- * @param {number[]} arr
- * @return {ListNode}
- */
-export function arrayToList(arr) {
-  const head = new ListNode("head");
+export function arrayToList<T>(arr: T[]): ListNode<T> {
+  const head = new ListNode<T>(null);
 
   let node = head;
   for (let n of arr) {
