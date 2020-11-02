@@ -1,14 +1,16 @@
 {
   "compilerOptions": {
     "pretty": true,
+    "downlevelIteration": true,
+    "importHelpers": true,
     "moduleResolution": "node",
     "lib": [
-      "es5",
-      "es2015.core",
-      "es2015.symbol",
-      "es2015.collection",
-      "es2015.promise",
-      "es2015.iterable",
+      "ES5",
+      "ES2015.Core",
+      "ES2015.Symbol",
+      "ES2015.Promise",
+      "ES2015.Collection",
+      "ES2015.Iterable"
     ],
     "baseUrl": ".",
     "paths": {
