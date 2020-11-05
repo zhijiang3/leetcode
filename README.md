@@ -2,6 +2,10 @@
 
 该仓库用于记录平时在 [leetcode](https://leetcode-cn.com/) 中刷的题目与其所涉及到的知识点。
 
+**2020.11.05**：该仓库不再做一题写一个题解，只有在需要大量测试用例或需要记录解法时才会新增题目。
+
+> 更多动态可访问 [zhijiang34 的 leetcode 主页](https://leetcode-cn.com/u/zhijiang34/)
+
 ## 开始解决问题
 
 可以通过 `yarn new:problem` 或 `npm run new:problem` 命令开始一个新的问题，在输入完一系列必须的值之后，将会自动创建所需的文件。
