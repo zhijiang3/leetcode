@@ -39,7 +39,7 @@ export function heapDown<T>(heap: T[], heapIndex: number) {
 
     heapIndex = leftIndex;
 
-    leftIndex = 2 * targetIndex + 1;
-    rightIndex = 2 * targetIndex + 2;
+    leftIndex = 2 * leftIndex + 1;
+    rightIndex = 2 * leftIndex + 2;
   }
 }
